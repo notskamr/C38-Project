@@ -15,8 +15,8 @@ var gameOver, restart;
 localStorage["HighestScore"] = 0;
 
 function preload(){
-  trex_running =   loadAnimation("images/trex1.png","images/trex3.png","images/trex4.png");
-  trex_collided = loadAnimation("images/trex_collided.png");
+  trex_running =   loadAnimation("images/bob.png");
+  trex_collided = loadAnimation("images/bob_death.png");
   
   groundImage = loadImage("images/ground2.png");
   
@@ -31,6 +31,9 @@ function preload(){
   
   gameOverImg = loadImage("images/gameOver.png");
   restartImg = loadImage("images/restart.png");
+
+  bloodSound = loadSound("sounds/blood.mp3")
+  yaySound = loadSound("sounds/yay.mp3")
 }
 
 function setup() {
@@ -40,7 +43,7 @@ function setup() {
   
   trex.addAnimation("running", trex_running);
   trex.addAnimation("collided", trex_collided);
-  trex.scale = 0.5;
+  trex.scale = 0.2;
   
   ground = createSprite(200,180,400,20);
   ground.addImage("ground",groundImage);
@@ -69,6 +72,7 @@ function setup() {
 }
 
 function draw() {
+
   //trex.debug = true;
   camera.x = trex.x;
   camera.y = trex.y;
@@ -76,13 +80,13 @@ function draw() {
   gameOver.position.x = restart.position.x = camera.x
 
   background(255);
-  text("Score: "+ score, 500,50);
+  
   
   if (gameState===PLAY){
     score = score + Math.round(getFrameRate()/60);
     ground.velocityX = -(6 + 3*score/100);
   
-    if(keyDown("space") || keyDown("UP_ARROW") && trex.y >= 159) {
+    if(keyDown("space") && trex.y >= 130) {
       trex.velocityY = -12;
     }
   
@@ -97,6 +101,7 @@ function draw() {
     spawnObstacles();
   
     if(obstaclesGroup.isTouching(trex)){
+        bloodSound.play()
         gameState = END;
     }
   }
@@ -123,6 +128,7 @@ function draw() {
   }
   
   drawSprites();
+  text("Score: "+ score, 500,50);
 }
 
 function spawnClouds() {
