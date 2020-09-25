@@ -32,7 +32,7 @@ function preload(){
   gameOverImg = loadImage("images/gameOver.png");
   restartImg = loadImage("images/restart.png");
 
-  bloodSound = loadSound("sounds/blood.mp3")
+  bloodSound = loadSound("sounds/death.mp3")
   yaySound = loadSound("sounds/yay.mp3")
 }
 
