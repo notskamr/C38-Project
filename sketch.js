@@ -86,6 +86,7 @@ function draw() {
     
     score = score + Math.round(getFrameRate()/60);
   
+
     ground.velocityX = -(6 + 3*score/100);
   
     if(keyDown("space") && trex.y >= 130) {
@@ -135,7 +136,7 @@ function draw() {
   }
   
   drawSprites();
- 
+ text("Score: " + score, 250,70)
 }
 
 function spawnClouds() {
